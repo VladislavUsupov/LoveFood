@@ -13,7 +13,7 @@ data class Food (val nameFood: String, val description: String, val price: Strin
             var food = ArrayList<Food>()
 
             for (i in 0..9) {
-                food.add(Food("Food", "that i love", "500P", R.drawable.food))
+                food.add(Food("Food", "that i love", "500P", R.drawable.foods))
             }
 
             return food

@@ -23,36 +23,51 @@
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/food" />
+                android:src="@drawable/foods" />
 
             <TextView
                 android:id="@+id/txtNameFood"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/imgFood"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:text="Food"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtDescription"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/imgFood"
                 android:layout_below="@id/txtNameFood"
                 android:text="comment"/>
 
             <TextView
                 android:id="@+id/txtPrice"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:layout_toRightOf="@id/imgFood"
                 android:layout_below="@id/txtDescription"
                 android:text="price"/>
+
+            <Button
+                android:id="@+id/btnOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_toRightOf="@id/txtDescription"
+                android:theme="@style/Widget.AppCompat.Button.Colored"
+                android:textColor="#FFFFFF"
+                android:background="@color/colorPrimaryDark"
+                android:text="Заказать"
+                />
 
 
         </RelativeLayout>
