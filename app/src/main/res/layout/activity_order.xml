@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.example.vladislav.lovefood.activity.OrderActivity">
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Имя"
+        android:textSize="18sp"
+        android:padding="5dp"
+        android:textColor="@color/cardview_dark_background"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите имя"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@drawable/edit_text_style"/>
+
+    <TextView
+        android:id="@+id/txtAddress"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Адрес"
+        android:textSize="18sp"
+        android:padding="5dp"
+        android:textColor="@color/cardview_dark_background"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/editAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите адрес"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@drawable/edit_text_style"/>
+
+    <TextView
+        android:id="@+id/txtPhone"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Телефон"
+        android:textSize="18sp"
+        android:padding="5dp"
+        android:textColor="@color/cardview_dark_background"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/editPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите телефон"
+        android:padding="10dp"
+        android:gravity="center"
+        android:background="@drawable/edit_text_style"/>
+
+
+    <Button
+        android:id="@+id/btnConfirm"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Widget.AppCompat.Button.Colored"
+        android:textColor="#FFFFFF"
+        android:background="@color/colorPrimaryDark"
+        android:text="Подтвердить"
+        />
+
+</LinearLayout>
