@@ -7,26 +7,37 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.example.vladislav.lovefood.R
 import com.example.vladislav.lovefood.adapters.FoodAdapter
-import com.example.vladislav.lovefood.models.Food
+import com.example.vladislav.lovefood.loadFoodById
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+
+import org.jetbrains.anko.custom.async
 
 
 class FoodActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
 
-    private val foodAdapter = FoodAdapter(Food.food) {
-        onButtonOrderClick()
-    }
+    private lateinit var idRestaurant: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_food)
+        idRestaurant = getIntent().getExtras().getString("id")
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-        recyclerView.adapter = foodAdapter
-        foodAdapter.notifyDataSetChanged()
+
+        launch(UI) {
+            async {
+
+                recyclerView.adapter = FoodAdapter(loadFoodById(idRestaurant)) {
+                    onButtonOrderClick()
+                }
+                recyclerView.adapter.notifyDataSetChanged()
+            }
+        }
     }
 
 

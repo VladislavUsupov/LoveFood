@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.vladislav.lovefood.R
 import com.example.vladislav.lovefood.models.Food
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.food_item.view.*
 
 class FoodAdapter(
@@ -23,7 +24,8 @@ class FoodAdapter(
         holder?.txtNameFood?.text = food.nameFood
         holder?.txtDescription?.text = food.description
         holder?.txtPrice?.text = food.price
-        holder?.imgFood?.setImageResource(food.imageFood)
+        Picasso.get().load(food.imageUrl).into(holder?.imgFood)
+//        holder?.imgFood?.setImageResource(food.imageFood)
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.vladislav.lovefood.adapters
 
 
+import android.media.Image
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.TextView
 import com.example.vladislav.lovefood.R
 import com.example.vladislav.lovefood.models.Restaurant
 import android.widget.ImageView
+import com.squareup.picasso.Picasso
 
 class RestaurantAdapter(
         private var items: ArrayList<Restaurant>,
@@ -23,7 +25,7 @@ class RestaurantAdapter(
         holder?.txtNameRestaurant?.text = restaurant.nameRestaurant
         holder?.txtMinOrderAmount?.text = restaurant.minOrderAmount
         holder?.txtDeliveryTime?.text = restaurant.deliveryTime
-        holder?.imgRestaurant?.setImageResource(restaurant.imageRestaurant)
+        Picasso.get().load(restaurant.imgRestaurant).into(holder?.imgRestaurant)
     }
 
 
@@ -46,12 +48,14 @@ class RestaurantAdapter(
 
 
 
+
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row){
 
         var txtNameRestaurant: TextView? = null
         var txtMinOrderAmount: TextView? = null
         var txtDeliveryTime: TextView? = null
         var imgRestaurant: ImageView? = null
+
 
         init {
             this.txtNameRestaurant = row.findViewById<TextView>(R.id.txtNameRestaurant)
