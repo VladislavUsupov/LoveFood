@@ -5,20 +5,19 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.widget.Toast
 import com.example.vladislav.lovefood.R
 import com.example.vladislav.lovefood.adapters.RestaurantAdapter
 import com.example.vladislav.lovefood.models.Restaurant
 import com.google.gson.Gson
+import io.paperdb.Paper
 import okhttp3.*
-
 import java.io.IOException
+import com.example.vladislav.lovefood.App
 
 
 class MainActivity : AppCompatActivity(){
 
     private lateinit var recyclerView: RecyclerView
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +32,8 @@ class MainActivity : AppCompatActivity(){
 
 
     private fun onRestaurantClick(restaurant: Restaurant){
-        Toast.makeText(this, "${restaurant.nameRestaurant}", Toast.LENGTH_SHORT). show()
         val intent = Intent(this, FoodActivity::class.java)
-        intent.putExtra("id", "2")
+        intent.putExtra("id", "${restaurant.id}")
         startActivity(intent)
     }
 
@@ -43,30 +41,42 @@ class MainActivity : AppCompatActivity(){
 
     private fun loadRestaurants(){
 
-        val client = OkHttpClient()
-        val request = Request.Builder()
-                .url("https://api.jsonbin.io/b/5ac0c95b2be5ef0bbf466182/3")
-                .build()
-        client.newCall(request).enqueue(object: Callback {
+        if ((application as App).isOnline()){
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                    .url("https://api.jsonbin.io/b/5ac0c95b2be5ef0bbf466182/7")
+                    .build()
+            client.newCall(request).enqueue(object : Callback {
 
-            override fun onResponse(call: Call?, response: Response?) {
-                val responseText = response?.body()!!.string()
-                System.out.println(responseText)
-                val restaurants = Gson().fromJson(responseText, Restaurant.List::class.java)
+                override fun onResponse(call: Call?, response: Response?) {
+                    val responseText = response?.body()!!.string()
+                    val restaurants = Gson().fromJson(responseText, Restaurant.List::class.java)
 
-                runOnUiThread {
-                    recyclerView.adapter = RestaurantAdapter(restaurants) {restaurant ->
-                        onRestaurantClick(restaurant)
+                    Paper.book().write("restaurants", restaurants)
+
+                    runOnUiThread {
+                        recyclerView.adapter = RestaurantAdapter(restaurants) { restaurant ->
+                            onRestaurantClick(restaurant)
+                        }
                     }
-                    recyclerView.adapter.notifyDataSetChanged()
                 }
-            }
 
-            override fun onFailure(call: Call?, e: IOException?) {
-                println("Failed to execute request")
+                override fun onFailure(call: Call?, e: IOException?) {
+                    println("Failed to execute request")
+                }
+            })
+        }
+        else {
+            val restaurants: Restaurant.List = Paper.book().read("restaurants")
+            recyclerView.adapter = RestaurantAdapter(restaurants) {restaurant ->
+                onRestaurantClick(restaurant)
             }
-        })
+        }
+        recyclerView.adapter.notifyDataSetChanged()
     }
+
+
+
 }
 
 

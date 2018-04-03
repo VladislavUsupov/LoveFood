@@ -1,7 +1,7 @@
 package com.example.vladislav.lovefood.adapters
 
 
-import android.media.Image
+import android.accounts.NetworkErrorException
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +25,12 @@ class RestaurantAdapter(
         holder?.txtNameRestaurant?.text = restaurant.nameRestaurant
         holder?.txtMinOrderAmount?.text = restaurant.minOrderAmount
         holder?.txtDeliveryTime?.text = restaurant.deliveryTime
-        Picasso.get().load(restaurant.imgRestaurant).into(holder?.imgRestaurant)
+        try {
+            Picasso.get().load(restaurant.imageUrl).into(holder?.imgRestaurant)
+        }
+        catch (e: NetworkErrorException) {
+            holder?.imgRestaurant?.setImageResource(R.drawable.food2)
+        }
     }
 
 
@@ -58,10 +63,10 @@ class RestaurantAdapter(
 
 
         init {
-            this.txtNameRestaurant = row.findViewById<TextView>(R.id.txtNameRestaurant)
-            this.txtMinOrderAmount = row.findViewById<TextView>(R.id.txtMinOrderAmount)
-            this.txtDeliveryTime = row.findViewById<TextView>(R.id.txtDeliveryTime)
-            this.imgRestaurant = row.findViewById<ImageView>(R.id.imgRestaurant)
+            this.txtNameRestaurant = row.findViewById(R.id.txtNameRestaurant)
+            this.txtMinOrderAmount = row.findViewById(R.id.txtMinOrderAmount)
+            this.txtDeliveryTime = row.findViewById(R.id.txtDeliveryTime)
+            this.imgRestaurant = row.findViewById(R.id.imgRestaurant)
         }
     }
 }
