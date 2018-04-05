@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(){
                         recyclerView.adapter = RestaurantAdapter(restaurants) { restaurant ->
                             onRestaurantClick(restaurant)
                         }
+                        recyclerView.adapter.notifyDataSetChanged()
                     }
                 }
 
@@ -68,11 +69,11 @@ class MainActivity : AppCompatActivity(){
         }
         else {
             val restaurants: Restaurant.List = Paper.book().read("restaurants")
+
             recyclerView.adapter = RestaurantAdapter(restaurants) {restaurant ->
                 onRestaurantClick(restaurant)
             }
         }
-        recyclerView.adapter.notifyDataSetChanged()
     }
 
 

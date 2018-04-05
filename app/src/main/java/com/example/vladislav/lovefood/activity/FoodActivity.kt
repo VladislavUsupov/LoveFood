@@ -5,17 +5,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.example.vladislav.lovefood.App
-import com.example.vladislav.lovefood.R
+import com.example.vladislav.lovefood.*
 import com.example.vladislav.lovefood.adapters.FoodAdapter
-import com.example.vladislav.lovefood.loadFoodById
-import com.example.vladislav.lovefood.loadFoodByIdFromCache
 import com.example.vladislav.lovefood.models.Food
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
-
 import org.jetbrains.anko.custom.async
-
 
 class FoodActivity : AppCompatActivity() {
 
@@ -39,15 +34,15 @@ class FoodActivity : AppCompatActivity() {
                     recyclerView.adapter = FoodAdapter(loadFoodById(idRestaurant)) { food ->
                         onButtonOrderClick(food)
                     }
+                    recyclerView.adapter.notifyDataSetChanged()
                 }
             }
         }
         else {
-            recyclerView.adapter = FoodAdapter(loadFoodByIdFromCache(idRestaurant)) { food ->
+            recyclerView.adapter = FoodAdapter(loadFoodByIdFromDb(idRestaurant)) { food ->
                 onButtonOrderClick(food)
             }
         }
-        recyclerView.adapter.notifyDataSetChanged()
     }
 
 

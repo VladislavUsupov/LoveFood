@@ -1,7 +1,5 @@
 package com.example.vladislav.lovefood.adapters
 
-
-import android.accounts.NetworkErrorException
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +26,7 @@ class RestaurantAdapter(
         try {
             Picasso.get().load(restaurant.imageUrl).into(holder?.imgRestaurant)
         }
-        catch (e: NetworkErrorException) {
+        catch (e: Exception) {
             holder?.imgRestaurant?.setImageResource(R.drawable.food2)
         }
     }
