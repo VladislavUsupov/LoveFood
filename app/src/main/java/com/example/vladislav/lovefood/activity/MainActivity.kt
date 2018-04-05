@@ -13,6 +13,12 @@ import io.paperdb.Paper
 import okhttp3.*
 import java.io.IOException
 import com.example.vladislav.lovefood.App
+import com.example.vladislav.lovefood.loadRestaurants
+import com.example.vladislav.lovefood.loadRestaurantsFromDb
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 
 class MainActivity : AppCompatActivity(){
@@ -23,58 +29,38 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerViewMain)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
 
-        loadRestaurants()
+        if ((application as App).isOnline()) {
+            launch(UI) {
+                val restaurants = async (CommonPool) {
+                    loadRestaurants()
+                }.await()
+                recyclerView.adapter = RestaurantAdapter(restaurants) { restaurant ->
+                    onRestaurantClick(restaurant)
+                }
+            }
+        }
+        else {
+            recyclerView.adapter = RestaurantAdapter(loadRestaurantsFromDb()) { restaurant ->
+                onRestaurantClick(restaurant)
+            }
+        }
     }
 
 
 
     private fun onRestaurantClick(restaurant: Restaurant){
         val intent = Intent(this, FoodActivity::class.java)
-        intent.putExtra("id", "${restaurant.id}")
+        intent.putExtra("id", restaurant.id)
+        intent.putExtra("title", restaurant.nameRestaurant)
         startActivity(intent)
     }
 
 
 
-    private fun loadRestaurants(){
 
-        if ((application as App).isOnline()){
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                    .url("https://api.jsonbin.io/b/5ac0c95b2be5ef0bbf466182/7")
-                    .build()
-            client.newCall(request).enqueue(object : Callback {
-
-                override fun onResponse(call: Call?, response: Response?) {
-                    val responseText = response?.body()!!.string()
-                    val restaurants = Gson().fromJson(responseText, Restaurant.List::class.java)
-
-                    Paper.book().write("restaurants", restaurants)
-
-                    runOnUiThread {
-                        recyclerView.adapter = RestaurantAdapter(restaurants) { restaurant ->
-                            onRestaurantClick(restaurant)
-                        }
-                        recyclerView.adapter.notifyDataSetChanged()
-                    }
-                }
-
-                override fun onFailure(call: Call?, e: IOException?) {
-                    println("Failed to execute request")
-                }
-            })
-        }
-        else {
-            val restaurants: Restaurant.List = Paper.book().read("restaurants")
-
-            recyclerView.adapter = RestaurantAdapter(restaurants) {restaurant ->
-                onRestaurantClick(restaurant)
-            }
-        }
-    }
 
 
 

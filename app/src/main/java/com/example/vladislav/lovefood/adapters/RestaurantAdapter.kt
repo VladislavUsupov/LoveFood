@@ -27,7 +27,7 @@ class RestaurantAdapter(
             Picasso.get().load(restaurant.imageUrl).into(holder?.imgRestaurant)
         }
         catch (e: Exception) {
-            holder?.imgRestaurant?.setImageResource(R.drawable.food2)
+            holder?.imgRestaurant?.setImageResource(R.drawable.imgdefault)
         }
     }
 
@@ -51,20 +51,11 @@ class RestaurantAdapter(
 
 
 
-
     class ViewHolder(row: View) : RecyclerView.ViewHolder(row){
 
-        var txtNameRestaurant: TextView? = null
-        var txtMinOrderAmount: TextView? = null
-        var txtDeliveryTime: TextView? = null
-        var imgRestaurant: ImageView? = null
-
-
-        init {
-            this.txtNameRestaurant = row.findViewById(R.id.txtNameRestaurant)
-            this.txtMinOrderAmount = row.findViewById(R.id.txtMinOrderAmount)
-            this.txtDeliveryTime = row.findViewById(R.id.txtDeliveryTime)
-            this.imgRestaurant = row.findViewById(R.id.imgRestaurant)
-        }
+        var txtNameRestaurant: TextView = row.findViewById(R.id.txtNameRestaurant)
+        var txtMinOrderAmount: TextView = row.findViewById(R.id.txtMinOrderAmount)
+        var txtDeliveryTime: TextView = row.findViewById(R.id.txtDeliveryTime)
+        var imgRestaurant: ImageView = row.findViewById(R.id.imgRestaurant)
     }
 }
